@@ -11,7 +11,7 @@ Route::get('/', function () {
 
 Route::get('/tasks', function () {
     return view('index', [
-        'tasks' => Task::latest()->get()
+        'tasks' => Task::latest()->paginate()
     ]);
 })->name('tasks.index');
 
@@ -37,7 +37,7 @@ Route::post('/tasks', function (TaskRequest $request) {
         ->with('success','Task was created successfully!');
 })->name('tasks.store');
 
-Route::put('/tasks/{task}', function ($task, Request $request) {
+Route::put('/tasks/{task}', function (Task $task, TaskRequest $request) {
     $task->update($request->validated());
 
     return redirect()->route('tasks.show', ['task' => $task->id])
@@ -49,6 +49,11 @@ Route::delete('/tasks/{task}', function (Task $task) {
     return redirect()->route('tasks.index')
         ->with('success','Task has been deleted successfully!');
 })->name('tasks.destroy');
+
+Route::put('tasks/{task}/toggle-complete', function(Task $task) {
+    $task->toggleComplete();
+    return redirect()->back()->with('success','Task updated successfully');
+})->name('tasks.toggle-complete');
 
 Route::fallback(function () {
     return 'Still got somewhere!';
