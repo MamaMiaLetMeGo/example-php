@@ -13,6 +13,19 @@
       .link {
         @apply font-medium text-gray-700 underline decoration-blue-500
       }
+
+      label {
+        @apply block uppercase text-slate-700 mb-2
+      }
+
+      input, textarea {
+        @apply shadow-sm appearance-none border w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none
+      }
+
+      .error {
+        color: red;
+        font-size: 0.8rem;
+      }
     </style>
     {{-- blade-formatter-enable --}}
     @yield('styles')
